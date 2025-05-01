@@ -1,14 +1,10 @@
-import './Styles/styles.css';
-import {ToDo} from './app/ToDo.js';
-import {ToDoDom} from './dom/ToDoDom.js';
-import {ListCollection} from './app/ListCollection.js';
-import {ListCollectionDom} from './dom/ListCollectionDom.js';
-import { ToDoList } from './app/ToDoList.js';
-import { ToDoListDom } from './dom/ToDoListDom.js';
+import { ToDo } from "./app/ToDo";
+import { ToDoDom } from "./dom/ToDoDom";
 
-ListCollection.addToDoList("My ToDo list", "This is my todo list");
+const toDo = new ToDo("My todo", "lol", "Whatever", "0");
+const toDo2 = new ToDo("Another todo ", "lol", "Whatever", "0");
 
-const listCollection = ListCollection.getToDoLists();
-const listCollectionDom = new ListCollectionDom();
-
-listCollectionDom.renderCollection(listCollection);
+const toDoDom = new ToDoDom(toDo);
+const toDoDom2 = new ToDoDom(toDo2);
+toDoDom.renderToDo(toDo);
+toDoDom2.renderToDo(toDo2);

@@ -1,18 +1,47 @@
 export class ToDo {
+    #id
+    #title
+    #description
+    #dueDate
+    #priority
+    #done
+
     constructor(id, title, description, dueDate, priority) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.done = false;
+        this.#id = id;
+        this.#title = title;
+        this.#description = description;
+        this.#dueDate = dueDate;
+        this.#priority = priority;
+        this.#done = false;
     }
 
-    set priority(value) {
-        this._priority = value;
+    get id() {
+        return this.#id;
     }
 
-     set done(value) {
-        this._done = value;
-     }
+    get title() {
+        return this.#title;
+    }
+
+    get description() {
+return this.#description;
+    }
+
+    get dueDate() {
+return this.#dueDate;
+    }
+
+    get priority() {
+return this.#priority;
+    }
+
+    get done() {
+return this.#done;
+    }
+
+    set done(value) {
+        this.#done = value;
+    }
+
 }
+
