@@ -1,27 +1,36 @@
+import { CreateToDoListModal } from "./createToDoListModal.js";
+import { ToDoListDom } from "./ToDoListDom.js";
+
 export class ListCollectionDom {
-    #listElement;
+    #listElements;
+    #createNewListButton;
 
     constructor() {
-        this.#initializeElements();
-        this.#configureElements();
-        this.#buildStructure();
+        this.#listElements = document.querySelector(".collections-container>ul");
+        this.#createNewListButton = document.querySelector(".sidebar>button");
+        this.#setEventListeners();
     }
 
-    #initializeElements() {
-        this.#listElement = document.createElement("li");
+
+    #initializeListElement() {
+        const listElement = document.createElement("li");
+        listElement.classList.add("list-collection");
+
+        return listElement;
     }
 
-    #configureElements() {
-        this.#listElement.classList.add("list-collection");
-    }
-
-    #buildStructure() {
+    #setEventListeners() {
+        this.#createNewListButton.addEventListener("click", CreateToDoListModal.showModal);
+        this.#listElements.addEventListener("click", ToDoListDom.renderToDoList())
     }
 
     renderCollection(collectionObj) {
-        this.#listElement.innerHTML = collectionObj.title;
-        this.#listElement.dataset.id = collectionObj.id;
-        
-        return this.#listElement;
+        for (const toDoList of collectionObj) {
+            const listElement = this.#initializeListElement();
+            listElement.innerHTML = toDoList.title;
+            listElement.dataset.id = toDoList.id;
+            this.#setEventListeners();
+            this.#listElements.appendChild(listElement);
+        }
     }
 }

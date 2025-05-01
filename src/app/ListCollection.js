@@ -1,38 +1,11 @@
 import {DbHandler} from './dbHandler.js';
 import { ToDoList } from './ToDoList.js';
 
-export class ListCollection {
-    #id
-    #collection
-    #title
-    #description
+export const ListCollection = (function() {
 
-    constructor(title, description) {
-        this.#id = this.#generateCollectionId();
-        this.#collection = [];
-        this.#title = title;
-        this.#description = description;
-
-        this.#initFirstToDoList();
-    }
-
-    get id() {
-        return this.#id;
-    }
-
-    get collection() {
-        return this.#collection;
-    }
-
-    get title() {
-        return this.#title;
-    }
-
-    get description() {
-    return this.#description;
-    }
+    let collection = [];
     
-    #generateCollectionId() {
+    const generateCollectionId = () => {
         if (DbHandler.isEmpty) {
             return "0";
         }
@@ -42,23 +15,36 @@ export class ListCollection {
         }
     }
 
+    const generateToDoListId = () => {
+        return collection.length;
+    };
 
-    #initFirstToDoList() {
-        const id = this.#generateToDoListId();
+    const initFirstToDoList = () => {
+        const id = generateCollectionId();
         const firstToDo = new ToDoList(id, "Default", "Add your tasks here!");
-        this.#collection.push(firstToDo);
+        collection.push(firstToDo);
     }
 
-    #generateToDoListId() {
-        return this.#collection.length;
-    }
-    
-
-    addToDoList(toDoListObj) {
-        DbHandler.createToDoList(toDoListObj.id, todoListObj);
+    const addToDoList = (title, description) => {
+        const id = generateToDoListId().toString();
+        const toDoListObj = new ToDoList(id, title, description);
+        collection.push(toDoListObj);
+        DbHandler.createToDoList(id, toDoListObj);
     }
 
-    deleteToDoList(id) {
-        this.#collection[id].pop();
+    const deleteToDoList = (id) =>  {
+        collection[id].pop();
     }
-}
+
+    const getToDoLists = () => {
+        const toDoLists = [];
+        for (const toDoList of collection) {
+            toDoLists.push(toDoList);
+        }
+        return toDoLists;
+    }
+
+    initFirstToDoList();
+
+    return {addToDoList, deleteToDoList, getToDoLists};
+}) ();

@@ -27,6 +27,7 @@
     </main>
     <!-- Collection structure-->
      <aside class="sidebar">
+        <button>Create new list</button>
         <h1>Your collections</h1>
         <div class="collections-container">
             <ul>
@@ -34,5 +35,27 @@
             </ul>
         </div>
      </aside>
+
+     <!-- A modal dialog containing a form -->
+<dialog id="newToDoListDialog">
+    <form>
+      <p>
+        <label>
+          Title
+          <input type="text" name="txtTitle" id="txtTitle" required>
+        </label>
+      </p>
+      <p>
+        <label>
+          Description
+          <input type="text" name="txtDescription" id="txtDescription" required>
+        </label>
+      </p>
+      <div>
+        <button value="cancel" formmethod="dialog" id="btnCancel">Cancel</button>
+        <button id="btnConfirm" type="submit" value="default">Confirm</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
