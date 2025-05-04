@@ -7,11 +7,7 @@ export class Modal {
   #confirmButton;
   #cancelButton;
 
-  #projectObj;
-
-  constructor(projectObj) {
-    this.#projectObj = projectObj;
-
+  constructor() {
     this.dialog = document.createElement('dialog');
     this.dialog.id = 'newToDoListDialog';
 
@@ -82,36 +78,14 @@ export class Modal {
   }
 
   #closeModal() {
-    const dialog = document.querySelector("dialog");
-    dialog.close();
-  }
-
-  #submitModal() {
-    const dialog = document.querySelector("#newToDoListDialog");
-
-    const txtTitleElement = document.querySelector("#txtTitle");
-    const txtDescriptionElement = document.querySelector("#txtDescription");
-    const txtDueDateElement = document.querySelector("#txtDueDate");
-    const txtPriorityElement = document.querySelector("#txtPriority");
-    // Create new ToDo using Project object
-    this.#projectObj.createToDo(txtTitleElement.value, txtDescriptionElement.value, txtDueDateElement.value, txtPriorityElement.value);
-
     this.dialog.close();
     this.dialog.remove();
-
-    // Re-render project view
-    const projectDom = new ProjectDom(this.#projectObj);
-    projectDom.resetProjectContainerDom();
-    projectDom.renderProject();
   }
 
+  
+
   #setModalEventListeners() {
-    const confirmButton = document.querySelector("#btnConfirm");
     const cancelButton = document.querySelector("#btnCancel");
-    confirmButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.#submitModal();
-    });
     cancelButton.addEventListener("click", this.#closeModal);
   }
 

@@ -2,7 +2,7 @@ import { Modal } from "./Modal";
 import { ToDoDom } from "./ToDoDom";
 
 export class ProjectDom {
-    projectObj;
+    #projectObj;
 
     #divProjectContainer;
     #h2ProjectTitle ;
@@ -10,7 +10,7 @@ export class ProjectDom {
     #buttonCreate;
 
   constructor(projectObj) {
-    this.projectObj = projectObj;
+    this.#projectObj = projectObj;
 
     this.#divProjectContainer = document.createElement("div");
     this.#divProjectContainer.classList.add("project-container");
@@ -25,8 +25,29 @@ export class ProjectDom {
   }
   
   #openCreateModal = () => {
-    const createToDoModal = new Modal(this.projectObj);
+    const createToDoModal = new Modal();
     createToDoModal.openModal();
+
+
+    const submitButton = document.querySelector("#btnConfirm");
+    submitButton.addEventListener("click", (e) => this.#submitModal(e));
+  }
+
+  #submitModal(e) {
+    e.preventDefault();
+    const dialog = document.querySelector("#newToDoListDialog");
+
+    const txtTitleElement = document.querySelector("#txtTitle");
+    const txtDescriptionElement = document.querySelector("#txtDescription");
+    const txtDueDateElement = document.querySelector("#txtDueDate");
+    const txtPriorityElement = document.querySelector("#txtPriority");
+    // Create new ToDo using Project object
+    this.#projectObj.createToDo(txtTitleElement.value, txtDescriptionElement.value, txtDueDateElement.value, txtPriorityElement.value);
+
+    dialog.close();
+    dialog.remove();
+
+    this.renderProject();
   }
 
   #setEventListeners() {
@@ -44,13 +65,13 @@ export class ProjectDom {
 
   renderProject() {
     this.#resetProjectDom(); //reset contents before populating
-    this.#h2ProjectTitle.textContent = this.projectObj.title;
+    this.#h2ProjectTitle.textContent = this.#projectObj.title;
     this.#buttonCreate.textContent = "Create new To do!";
 
     this.#divProjectContainer.appendChild(this.#h2ProjectTitle);
     this.#divProjectContainer.appendChild(this.#buttonCreate);
 
-    for (const toDo of this.projectObj.toDoArray) {
+    for (const toDo of this.#projectObj.toDoArray) {
         const toDoDomObj = new ToDoDom(toDo);
         const toDoStructure = toDoDomObj.renderToDo();
         this.#divProjectsCardsContainer.appendChild(toDoStructure);
@@ -62,9 +83,5 @@ export class ProjectDom {
     //debug delete this
     const main = document.querySelector("main");
     main.appendChild(this.#divProjectContainer);
-  }
-    
-  get projectObj() {
-    return this.projectObj;
   }
 }

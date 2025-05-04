@@ -1,3 +1,5 @@
+import { Modal } from "./Modal"
+
 export class ToDoDom {
     // <div class="toDo-Container">
     //     <div class="title-container">
@@ -89,22 +91,12 @@ export class ToDoDom {
         }
 
     }
-
     #openEditModal(e) {
         e.preventDefault();
-        const dialog = document.querySelector("dialog");
-        dialog.showModal();
-    }
+        const modal = new Modal();
+        modal.openModal();
 
-    #closeEditModal() {
-        const dialog = document.querySelector("dialog");
-        dialog.close();
-    }
-
-    #submitEditModal(e) {
-        e.preventDefault();
-
-        this.#closeEditModal();
+        //this.#closeEditModal();
     }
 
     #setEventListeners() {
