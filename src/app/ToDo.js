@@ -39,6 +39,22 @@ return this.#priority;
 return this.#done;
     }
 
+    set title(value) {
+        this.#title = value;
+    }
+
+    set description(value) {
+        this.#description = value;
+    }
+
+    set dueDate(value) {
+        this.#dueDate = value;
+    }
+
+    set priority(value) {
+        this.#priority = value;
+    }
+
     set done(value) {
         this.#done = value;
     }

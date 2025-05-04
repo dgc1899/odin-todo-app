@@ -1,10 +1,19 @@
+import './Styles/styles.css';
 import { ToDo } from "./app/ToDo";
 import { ToDoDom } from "./dom/ToDoDom";
+import {Project} from "./app/Project";
+import {ProjectDom} from "./dom/ProjectDom";
 
-const toDo = new ToDo("My todo", "lol", "Whatever", "0");
-const toDo2 = new ToDo("Another todo ", "lol", "Whatever", "0");
+const projectObj = new Project('1', "My new project");
+projectObj.createToDo("Test todo", "This is a test todo", "Whenever", 0);
+projectObj.createToDo("Another one", "okay", "Whenever", 1);
 
-const toDoDom = new ToDoDom(toDo);
-const toDoDom2 = new ToDoDom(toDo2);
-toDoDom.renderToDo(toDo);
-toDoDom2.renderToDo(toDo2);
+const projectDom = new ProjectDom(projectObj);
+
+projectDom.renderProject();
+
+projectObj.deleteToDo(2);
+
+projectDom.renderProject();
+
+
