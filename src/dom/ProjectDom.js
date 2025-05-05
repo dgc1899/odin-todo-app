@@ -1,4 +1,4 @@
-import { Modal } from "./Modal";
+import { Modal } from "./ToDoModal";
 import { ToDoDom } from "./ToDoDom";
 
 export class ProjectDom {
@@ -65,7 +65,7 @@ export class ProjectDom {
     document.addEventListener("click", (e) => this.#deleteToDo(e));
   }
 
-  #resetProjectDom() {
+  resetProjectDom() {
     this.#divProjectsCardsContainer.innerHTML = "";
   }
 
@@ -75,7 +75,7 @@ export class ProjectDom {
   }
 
   renderProject() {
-    this.#resetProjectDom(); //reset contents before populating
+    this.resetProjectDom(); //reset contents before populating
     this.#h2ProjectTitle.textContent = this.#projectObj.title;
     this.#buttonCreate.textContent = "Create new To do!";
 
@@ -91,8 +91,6 @@ export class ProjectDom {
     this.#divProjectContainer.appendChild(this.#divProjectsCardsContainer);
     
     this.#setEventListeners()
-    //debug delete this
-    const main = document.querySelector("main");
-    main.appendChild(this.#divProjectContainer);
+    return this.#divProjectContainer;
   }
 }

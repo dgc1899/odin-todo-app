@@ -1,4 +1,4 @@
-import { Modal } from "./Modal"
+import { Modal } from "./ToDoModal"
 
 export class ToDoDom {
     #toDoContainer

@@ -1,4 +1,3 @@
-import { ProjectDom } from "./ProjectDom";
 export class Modal {
   #titleInput;
   #descriptionInput;
@@ -83,10 +82,7 @@ export class Modal {
     dialog.remove();
   }
 
-  
-
   #setModalEventListeners() {
-    const confirmButton = document.querySelector("#btnConfirm");
     const cancelButton = document.querySelector("#btnCancel");
     cancelButton.addEventListener("click", this.#closeModal);
   }
