@@ -78,13 +78,15 @@ export class Modal {
   }
 
   #closeModal() {
-    this.dialog.close();
-    this.dialog.remove();
+    const dialog = document.querySelector("#newToDoListDialog");
+    dialog.close();
+    dialog.remove();
   }
 
   
 
   #setModalEventListeners() {
+    const confirmButton = document.querySelector("#btnConfirm");
     const cancelButton = document.querySelector("#btnCancel");
     cancelButton.addEventListener("click", this.#closeModal);
   }
@@ -95,6 +97,23 @@ export class Modal {
     const dialog = document.querySelector("#newToDoListDialog");
     dialog.showModal();
     this.#setModalEventListeners();
+  }
+
+  populateModal(values) {
+    const txtTitleElement = document.querySelector("#txtTitle");
+    const txtDescriptionElement = document.querySelector("#txtDescription");
+    const txtDueDateElement = document.querySelector("#txtDueDate");
+    const txtPriorityElement = document.querySelector("#txtPriority");
+
+    const title = values[0];
+    const description = values[1];
+    const dueDate = values[2];
+    const priority = values[3];
+
+    txtTitleElement.value = title;
+    txtDescriptionElement.value = description;
+    txtDueDateElement.value = dueDate;
+    txtPriorityElement.value = priority;
   }
 
 }

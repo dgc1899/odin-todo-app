@@ -50,8 +50,19 @@ export class ProjectDom {
     this.renderProject();
   }
 
+  #deleteToDo(e) {
+    if (e.target.classList.contains("btn-delete-todo")) {
+      //find the data for the todo id
+      const parent = e.target.closest(".toDo-Container");
+      const id = parent.getAttribute("data-id");
+      this.#projectObj.deleteToDo(id);
+      this.renderProject();
+    }
+  }
+
   #setEventListeners() {
     this.#buttonCreate.addEventListener("click", this.#openCreateModal);
+    document.addEventListener("click", (e) => this.#deleteToDo(e));
   }
 
   #resetProjectDom() {
@@ -79,7 +90,7 @@ export class ProjectDom {
 
     this.#divProjectContainer.appendChild(this.#divProjectsCardsContainer);
     
-    this.#setEventListeners();
+    this.#setEventListeners()
     //debug delete this
     const main = document.querySelector("main");
     main.appendChild(this.#divProjectContainer);

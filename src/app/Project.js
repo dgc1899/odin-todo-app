@@ -33,12 +33,14 @@ export class Project {
     }
 
     #generateToDoId() {
-        return this.#toDoArray.length + 1;
+        const timestamp = Date.now();
+        const random = Math.floor(Math.random() * 10000);
+        return `${timestamp}-${random}`;
     }
 
     createToDo(title, description, dueDate, priority) {
         const toDoId = this.#generateToDoId();
-        const toDoObj = new ToDo(toDoId, title, description, dueDate, priority);
+        const toDoObj = new ToDo(toDoId, title, description, dueDate, priority, this.#id);
         this.#toDoArray.push(toDoObj);
     }
 

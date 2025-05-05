@@ -1,17 +1,6 @@
 import { Modal } from "./Modal"
 
 export class ToDoDom {
-    // <div class="toDo-Container">
-    //     <div class="title-container">
-    //         <h2>Title</h2>
-    //     </div>
-    //     <div class="details-container">
-    //         <p>Description</p>
-    //         <p>Due date</p>
-    //     </div>
-    //     <input type="checkbox"/>
-    // </div>
-
     #toDoContainer
     #titleContainer
     #detailsContainer
@@ -20,6 +9,7 @@ export class ToDoDom {
     #paraDueDate
     #inputComplete;
     #inputEdit;
+    #inputDelete
 
     #toDoObj;
 
@@ -29,6 +19,7 @@ export class ToDoDom {
         this.#toDoContainer = document.createElement("div");
         this.#toDoContainer.classList.add("toDo-Container");
         this.#toDoContainer.dataset.done = false;
+        this.#toDoContainer.dataset.id = this.#toDoObj.id;
 
         this.#titleContainer = document.createElement("div");
         this.#titleContainer.classList.add("title-container");
@@ -46,6 +37,9 @@ export class ToDoDom {
 
         this.#inputEdit = document.createElement("button");
         this.#inputEdit.classList.add("btn-edit-todo");
+
+        this.#inputDelete = document.createElement("button");
+        this.#inputDelete.classList.add("btn-delete-todo");
 
         this.#setEventListeners();
     }
@@ -94,11 +88,40 @@ export class ToDoDom {
     #openEditModal(e) {
         e.preventDefault();
         const modal = new Modal();
+
         modal.openModal();
 
-        //this.#closeEditModal();
+        const submitButton = document.querySelector("#btnConfirm");
+        submitButton.addEventListener("click", (e) => this.#submitModal(e));
+
+        const values = [this.#toDoObj.title, this.#toDoObj.description, this.#toDoObj.dueDate, this.#toDoObj.priority];
+        modal.populateModal(values);
     }
 
+    #submitModal(e) {
+        e.preventDefault();
+        const dialog = document.querySelector("#newToDoListDialog");
+    
+        // Get input values
+        const txtTitleElement = document.querySelector("#txtTitle");
+        const txtDescriptionElement = document.querySelector("#txtDescription");
+        const txtDueDateElement = document.querySelector("#txtDueDate");
+        const txtPriorityElement = document.querySelector("#txtPriority");
+    
+        // Update ToDo object properties
+        this.#toDoObj.title = txtTitleElement.value;
+        this.#toDoObj.description = txtDescriptionElement.value;
+        this.#toDoObj.dueDate = txtDueDateElement.value;
+        this.#toDoObj.priority = txtPriorityElement.value;
+    
+        // Close and remove the modal
+        dialog.close();
+        dialog.remove();
+    
+        // Re-render the ToDo
+        this.renderToDo();
+      }
+      
     #setEventListeners() {
         this.#inputComplete.addEventListener("click", (e) => this.#setComplete(e));
         this.#inputEdit.addEventListener("click", (e) => this.#openEditModal(e));
@@ -112,6 +135,7 @@ export class ToDoDom {
         this.#paraDueDate.innerHTML = this.#toDoObj.dueDate;
         this.#inputComplete.checked = this.#toDoObj.done;
         this.#inputEdit.innerHTML = "Edit";
+        this.#inputDelete.innerHTML = "Delete";
     
         // Append title to titleContainer
         this.#titleContainer.appendChild(this.#lblTitle);
@@ -121,6 +145,7 @@ export class ToDoDom {
         this.#detailsContainer.appendChild(this.#paraDueDate);
         this.#detailsContainer.appendChild(this.#inputComplete);
         this.#detailsContainer.appendChild(this.#inputEdit);
+        this.#detailsContainer.appendChild(this.#inputDelete);
         
         // Build main container
         this.#toDoContainer.appendChild(this.#titleContainer);

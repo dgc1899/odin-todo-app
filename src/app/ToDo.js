@@ -5,14 +5,16 @@ export class ToDo {
     #dueDate
     #priority
     #done
+    #projectId;
 
-    constructor(id, title, description, dueDate, priority) {
+    constructor(id, title, description, dueDate, priority, projectId) {
         this.#id = id;
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
         this.#priority = priority;
         this.#done = false;
+        this.#projectId = projectId;
     }
 
     get id() {
@@ -37,6 +39,10 @@ return this.#priority;
 
     get done() {
 return this.#done;
+    }
+
+    get projectId() {
+        return this.#projectId;
     }
 
     set title(value) {
