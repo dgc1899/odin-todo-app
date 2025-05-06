@@ -95,19 +95,42 @@ export class AppDom {
 
       }
 
+      #deleteProject(e) {
+        const id = e.target.dataset.id;
+        this.#appObj.deleteProject(id);
+        this.renderApp();
+      }
+
       renderSidebar() {
         const sidebar = document.querySelector(".sidebar");
         const ul = document.querySelector("ul");
 
         for (const project of this.#appObj.projectsList) {
             const listElement = document.createElement("li");
+
+            // Create container for link and delete button
+            const itemContainer = document.createElement("div");
+            itemContainer.classList.add("project-item-container");
+
+            // Create link element
             const linkElement = document.createElement("a");
             linkElement.innerHTML = project.title;
             linkElement.href = "#";
             linkElement.dataset.id = project.id;
             linkElement.addEventListener("click", (e) => this.#loadProject(e))
-    
-            listElement.appendChild(linkElement);
+
+            // Create delete button
+            const deleteButton = document.createElement("button");
+
+            if (this.#appObj.projectsList.indexOf(project) > 0) { //Do not attach a delete button to the first project aka the default project
+                deleteButton.innerHTML = "×";
+                deleteButton.classList.add("delete-project-btn");
+                deleteButton.dataset.id = project.id;
+                deleteButton.addEventListener("click", (e) => this.#deleteProject(e));
+            }    
+            itemContainer.appendChild(linkElement);
+            itemContainer.appendChild(deleteButton);
+            listElement.appendChild(itemContainer);
     
             ul.appendChild(listElement);
             sidebar.appendChild(ul);

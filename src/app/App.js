@@ -31,6 +31,15 @@ export class App {
         this.#projectsList.push(projectObj);
     }
 
+    deleteProject(id) {
+        for (const project of this.#projectsList) {
+            if (project.id === id) {
+                const index = this.#projectsList.indexOf(project);
+                this.#projectsList.splice(index, 1);
+            }
+        }
+    }
+
     #initFirstProject() {
         if (this.#projectsList.length === 0) {
             const firstProject = new Project(this.#generateProjectId(), "The default project");
