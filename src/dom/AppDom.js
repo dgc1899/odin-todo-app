@@ -12,6 +12,8 @@ export class AppDom {
     #collectionsContainer;
     #collectionsList;
 
+    #currentlySelectedProject;
+
 
     constructor(appObj) {
         this.#appObj = appObj;
@@ -49,11 +51,11 @@ export class AppDom {
 
         this.#contentContainer.appendChild(this.#sidebar);
 
-
         this.#contentContainer.appendChild(this.#main);
 
-
         document.body.appendChild(this.#contentContainer);
+
+        //this.#currentlySelectedProject = 
     }
 
     #openNewProjectModal = () => {
@@ -86,28 +88,47 @@ export class AppDom {
         this.#collectionsList.innerHTML = "";
       }
 
-    renderApp() {
-        this.#resetAppDom();
-        const main = document.querySelector("main");
+      #loadProject(e) {
+        const id = e.target.getAttribute("data-id");
+        this.#appObj.currentlySelectedProject = id;
+        this.renderApp();
+
+      }
+
+      renderSidebar() {
         const sidebar = document.querySelector(".sidebar");
         const ul = document.querySelector("ul");
 
-        for(const project of this.#appObj.projectsList) {
-            const projectDomObj = new ProjectDom(project);
-            projectDomObj.resetProjectContainerDom();
-            const projectStructure = projectDomObj.renderProject();
-            main.appendChild(projectStructure);
-
+        for (const project of this.#appObj.projectsList) {
             const listElement = document.createElement("li");
             const linkElement = document.createElement("a");
             linkElement.innerHTML = project.title;
             linkElement.href = "#";
-
+            linkElement.dataset.id = project.id;
+            linkElement.addEventListener("click", (e) => this.#loadProject(e))
+    
             listElement.appendChild(linkElement);
-
+    
             ul.appendChild(listElement);
             sidebar.appendChild(ul);
         }
+      }
+
+      renderCurrentProject() {
+        const main = document.querySelector("main");
+        const currentProject = this.#appObj.currentlySelectedProject;
+
+        const projectDomObj = new ProjectDom(currentProject);
+        projectDomObj.resetProjectContainerDom();
+        const projectStructure = projectDomObj.renderProject();
+        main.appendChild(projectStructure);
+
+      }
+
+    renderApp() {
+        this.#resetAppDom();
+        this.renderSidebar();
+        this.renderCurrentProject();
         this.#setEventListeners();
     }
 }

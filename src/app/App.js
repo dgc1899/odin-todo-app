@@ -2,6 +2,7 @@ import { Project } from "./Project"
 
 export class App {
     #projectsList
+    #currentlySelectedProject;
 
     constructor() {
         this.#projectsList = [];
@@ -12,6 +13,18 @@ export class App {
         return this.#projectsList;
     }
 
+    get currentlySelectedProject() {
+        for (const project of this.#projectsList) {
+            if (project.id === this.#currentlySelectedProject) {
+                return project;
+            }
+        }
+    }
+
+    set currentlySelectedProject(value) {
+        this.#currentlySelectedProject = value;
+    }
+
     createProject(title) {
         const id = this.#generateProjectId();
         const projectObj = new Project(id, title);
@@ -20,8 +33,9 @@ export class App {
 
     #initFirstProject() {
         if (this.#projectsList.length === 0) {
-            const firstProject = new Project(this.#generateProjectId, "Default");
+            const firstProject = new Project(this.#generateProjectId(), "The default project");
             this.#projectsList.push(firstProject);
+            this.#currentlySelectedProject = firstProject.id;
         }
     }
 
