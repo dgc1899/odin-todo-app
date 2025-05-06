@@ -9,6 +9,8 @@ export class Project {
         this.#id = id;
         this.#title = title;
         this.#toDoArray = [];
+
+        this.createToDo("Default", "Edit this!", "Tomorrow", "1");
     }
 
     get id() {
