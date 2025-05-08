@@ -1,12 +1,15 @@
 import './Styles/styles.css';
-import { ToDo } from "./app/ToDo";
-import { ToDoDom } from "./dom/ToDoDom";
-import {Project} from "./app/Project";
-import {ProjectDom} from "./dom/ProjectDom";
 import { App } from './app/App';
+import { DbHandler } from './app/DbHandler';
 import { AppDom } from './dom/AppDom';
 
-const app = new App();
+const savedData = DbHandler.loadFromStorage();
+
+const app = new App(savedData);
 const appDom = new AppDom(app);
 
 appDom.renderApp();
+
+window.addEventListener("beforeunload", () => {
+    DbHandler.saveToStorage(app);
+});

@@ -7,13 +7,13 @@ export class ToDo {
     #done
     #projectId;
 
-    constructor(id, title, description, dueDate, priority, projectId) {
+    constructor(id, title, description, dueDate, priority, done, projectId) {
         this.#id = id;
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
         this.#priority = priority;
-        this.#done = false;
+        this.#done = done;
         this.#projectId = projectId;
     }
 
@@ -63,6 +63,18 @@ return this.#done;
 
     set done(value) {
         this.#done = value;
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            title: this.#title,
+            description: this.#description,
+            dueDate: this.#dueDate,
+            priority: this.#priority,
+            done: this.#done,
+            projectId: this.#projectId
+        };
     }
 
 }

@@ -5,12 +5,14 @@ export class Project {
     #title;
     #toDoArray
 
-    constructor(id, title) {
+    constructor(id, title, savedData) {
         this.#id = id;
         this.#title = title;
         this.#toDoArray = [];
 
-        this.createToDo("Default", "Edit this!", "Tomorrow", "1");
+        if (!savedData) {
+            this.createToDo("Default", "Edit this!", "Tomorrow", "1", false);
+        }
     }
 
     get id() {
@@ -40,9 +42,9 @@ export class Project {
         return `${timestamp}-${random}`;
     }
 
-    createToDo(title, description, dueDate, priority) {
+    createToDo(title, description, dueDate, priority, done) {
         const toDoId = this.#generateToDoId();
-        const toDoObj = new ToDo(toDoId, title, description, dueDate, priority, this.#id);
+        const toDoObj = new ToDo(toDoId, title, description, dueDate, priority, done, this.#id);
         this.#toDoArray.push(toDoObj);
     }
 
@@ -61,6 +63,14 @@ export class Project {
                 
             }
         }
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            title: this.#title,
+            toDoArray: this.#toDoArray
+        };
     }
 
 }
